@@ -14,20 +14,16 @@ class Weather extends ConsumerWidget {
     ref.read(weatherQueryRiverpodProvider.notifier).addCity(cityName);
   }
 
-  Future<void> getCurrentWeather(WidgetRef ref, city, lat, lon) async {
-    ref
-        .read(weatherApiRiverpodProvider.notifier)
-        .getCurrentWeather(city, lat, lon);
+  Future<void> getCurrentWeather(WidgetRef ref) async {
+    ref.read(weatherApiRiverpodProvider.notifier).getCurrentWeather();
   }
 
   Future<void> getCurrentLocation(WidgetRef ref) async {
     ref.read(weatherQueryRiverpodProvider.notifier).getCurrentLocation();
   }
 
-  Future<void> getHorluWeather(WidgetRef ref, city, lat, lon) async {
-    ref
-        .read(HorluWeatherApiRiverpodProvider.notifier)
-        .getHorluWeather(city, lat, lon);
+  Future<void> getHorluWeather(WidgetRef ref) async {
+    ref.read(HorluWeatherApiRiverpodProvider.notifier).getHorluWeather();
   }
 
   @override
@@ -44,15 +40,11 @@ class Weather extends ConsumerWidget {
             onPressed: () {
               Timer(Duration(seconds: 3), () {
                 getHorluWeather(
-                    ref,
-                    ref.watch(weatherQueryRiverpodProvider).city,
-                    ref.watch(weatherQueryRiverpodProvider).lat,
-                    ref.watch(weatherQueryRiverpodProvider).lon);
+                  ref,
+                );
                 getCurrentWeather(
-                    ref,
-                    ref.watch(weatherQueryRiverpodProvider).city,
-                    ref.watch(weatherQueryRiverpodProvider).lat,
-                    ref.watch(weatherQueryRiverpodProvider).lon);
+                  ref,
+                );
               });
             },
           ),
@@ -65,15 +57,11 @@ class Weather extends ConsumerWidget {
               getCurrentLocation(ref);
               Timer(Duration(seconds: 2), () {
                 getHorluWeather(
-                    ref,
-                    ref.watch(weatherQueryRiverpodProvider).city,
-                    ref.watch(weatherQueryRiverpodProvider).lat,
-                    ref.watch(weatherQueryRiverpodProvider).lon);
+                  ref,
+                );
                 getCurrentWeather(
-                    ref,
-                    ref.watch(weatherQueryRiverpodProvider).city,
-                    ref.watch(weatherQueryRiverpodProvider).lat,
-                    ref.watch(weatherQueryRiverpodProvider).lon);
+                  ref,
+                );
               });
             },
           ),
@@ -86,15 +74,11 @@ class Weather extends ConsumerWidget {
                   (query) {
                     addCity(ref, query);
                     getHorluWeather(
-                        ref,
-                        ref.watch(weatherQueryRiverpodProvider).city,
-                        ref.watch(weatherQueryRiverpodProvider).lat,
-                        ref.watch(weatherQueryRiverpodProvider).lon);
+                      ref,
+                    );
                     getCurrentWeather(
-                        ref,
-                        ref.watch(weatherQueryRiverpodProvider).city,
-                        ref.watch(weatherQueryRiverpodProvider).lat,
-                        ref.watch(weatherQueryRiverpodProvider).lon);
+                      ref,
+                    );
                   },
                 ),
               );
@@ -102,26 +86,33 @@ class Weather extends ConsumerWidget {
           ),
         ],
       ),
-      body: Center(
+      body: SingleChildScrollView(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            Text('${ref.watch(weatherApiRiverpodProvider).cityName}',
-                style: TextStyle(
-                  color: Colors.black,
-                  fontSize: 30,
-                )),
-            Text('${ref.watch(weatherApiRiverpodProvider).description}',
-                style: TextStyle(
-                  color: Colors.black,
-                  fontSize: 15,
-                )),
+            Padding(
+              padding: const EdgeInsets.only(top: 30, bottom: 10),
+              child: Text('${ref.watch(weatherApiRiverpodProvider).cityName}',
+                  style: TextStyle(
+                    color: Colors.black,
+                    fontSize: 30,
+                  )),
+            ),
             Text('${ref.watch(weatherApiRiverpodProvider).time}',
                 style: TextStyle(
                   color: Colors.black,
                   fontSize: 15,
                 )),
+            Padding(
+              padding: const EdgeInsets.only(top: 18),
+              child: Text('${ref.watch(weatherApiRiverpodProvider).description}',
+                  style: TextStyle(
+                    color: Colors.black,
+                    fontSize: 15,
+                      fontWeight: FontWeight.bold
+                  )),
+            ),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
@@ -153,10 +144,10 @@ class Weather extends ConsumerWidget {
                   fontSize: 50,
                 )),
             Padding(
-              padding: const EdgeInsets.only(top: 50),
-              child: Container(
-                width: 520,
-                height: 230,
+              padding: const EdgeInsets.only(top: 40),
+              child: SizedBox(
+                width: 390,
+                height: 226,
                 child: ListView.builder(
                     scrollDirection: Axis.horizontal,
                     itemCount:
@@ -185,6 +176,7 @@ class Weather extends ConsumerWidget {
                                   style: TextStyle(
                                     color: Colors.black,
                                     fontSize: 15,
+                                      fontWeight: FontWeight.bold
                                   )),
                               Image.network(
                                   "http://openweathermap.org/img/wn/${ref.watch(HorluWeatherApiRiverpodProvider)[i].iconCode}@2x.png"),
@@ -204,13 +196,36 @@ class Weather extends ConsumerWidget {
               child: Row(
                 children: [
                   Image.asset('images/pressure.png'),
-                  Text('  pressure - 776'),
-                  SizedBox(width: 50,),
+                  Text(
+                    '  pressure - ${ref.watch(weatherApiRiverpodProvider).pressure}',
+                    style: TextStyle(
+                        color: Colors.black, fontWeight: FontWeight.bold),
+                  ),
+                  SizedBox(
+                    width: 40,
+                  ),
                   Image.asset('images/humidity.png'),
-                  Text('  humidity - 67'),
+                  Text(
+                    '  humidity - ${ref.watch(weatherApiRiverpodProvider).humidity}%',
+                    style: TextStyle(
+                        color: Colors.black, fontWeight: FontWeight.bold),
+                  ),
                 ],
               ),
             ),
+            Padding(
+              padding: const EdgeInsets.only(top: 15),
+              child: Row
+                (children: [
+                  SizedBox(width: 100,),
+                Image.asset('images/speed.png'),
+                Text(
+                  '  speed wind - ${ref.watch(weatherApiRiverpodProvider).speedwind} m/sec',
+                  style: TextStyle(
+                      color: Colors.black, fontWeight: FontWeight.bold),
+                ),
+              ],),
+            )
           ],
         ),
       ),
