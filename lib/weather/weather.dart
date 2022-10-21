@@ -3,7 +3,9 @@ import 'dart:async';
 import 'package:app_weather/api/hourluWeatherApiProvider.dart';
 import 'package:app_weather/api/weatherApiProvider.dart';
 import 'package:app_weather/delegates/searchDelegate.dart';
+import 'package:app_weather/weather/imagesWeatherProvider.dart';
 import 'package:app_weather/weather/queryWeatherProvider.dart';
+import 'package:app_weather/weather/text%D0%A1olorProvider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -23,48 +25,64 @@ class Weather extends ConsumerWidget {
   }
 
   Future<void> getHorluWeather(WidgetRef ref) async {
-    ref.read(HorluWeatherApiRiverpodProvider.notifier).getHorluWeather();
+    ref.read(horluWeatherApiRiverpodProvider.notifier).getHorluWeather();
+  }
+
+  Future<void> imagesSetting(WidgetRef ref) async {
+    ref.read(imagesWeatherRiverpodProvider.notifier).imagesSetting();
+  }
+
+  Future<void> textColorSetting(WidgetRef ref) async {
+    ref.read(textColorRiverpodProvider.notifier).textColorSetting();
   }
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    ref.watch(weatherApiRiverpodProvider).cityName;
+    ref.read(weatherQueryRiverpodProvider).lon;
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.white70,
         actions: <Widget>[
           IconButton(
-            icon: Icon(
-              Icons.zoom_out_map_sharp,
-              color: Colors.black,
-            ),
-            onPressed: () {
-              Timer(Duration(seconds: 3), () {
-                getHorluWeather(
-                  ref,
+              icon: Icon(
+                Icons.zoom_out_map_sharp,
+                color: Colors.black,
+              ),
+              onPressed: () {
+                Navigator.pushNamed(context, '/map');
+                Timer(
+                  Duration(seconds: 3),
+                  () {
+                    getCurrentWeather(
+                      ref,
+                    );
+                  },
                 );
-                getCurrentWeather(
-                  ref,
-                );
-              });
-            },
-          ),
+              }),
           IconButton(
-            icon: Icon(
-              Icons.gps_fixed,
-              color: Colors.black,
-            ),
-            onPressed: () {
-              getCurrentLocation(ref);
-              Timer(Duration(seconds: 2), () {
-                getHorluWeather(
-                  ref,
+              icon: Icon(
+                Icons.gps_fixed,
+                color: Colors.black,
+              ),
+              onPressed: () {
+                getCurrentLocation(ref);
+                Timer(
+                  Duration(seconds: 3),
+                  () {
+                    getHorluWeather(
+                      ref,
+                    );
+                    getCurrentWeather(
+                      ref,
+                    );
+                    Timer(Duration(seconds: 1), () {
+                      imagesSetting(ref);
+                      textColorSetting(ref);
+                    });
+                  },
                 );
-                getCurrentWeather(
-                  ref,
-                );
-              });
-            },
-          ),
+              }),
           IconButton(
             icon: Icon(Icons.search),
             onPressed: () {
@@ -79,6 +97,10 @@ class Weather extends ConsumerWidget {
                     getCurrentWeather(
                       ref,
                     );
+                    Timer(Duration(seconds: 1), () {
+                      imagesSetting(ref);
+                      textColorSetting(ref);
+                    });
                   },
                 ),
               );
@@ -106,12 +128,12 @@ class Weather extends ConsumerWidget {
                 )),
             Padding(
               padding: const EdgeInsets.only(top: 18),
-              child: Text('${ref.watch(weatherApiRiverpodProvider).description}',
+              child: Text(
+                  '${ref.watch(weatherApiRiverpodProvider).description}',
                   style: TextStyle(
-                    color: Colors.black,
-                    fontSize: 15,
-                      fontWeight: FontWeight.bold
-                  )),
+                      color: Colors.black,
+                      fontSize: 15,
+                      fontWeight: FontWeight.bold)),
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -147,42 +169,62 @@ class Weather extends ConsumerWidget {
               padding: const EdgeInsets.only(top: 40),
               child: SizedBox(
                 width: 390,
-                height: 226,
+                height: 235,
                 child: ListView.builder(
                     scrollDirection: Axis.horizontal,
                     itemCount:
-                        ref.watch(HorluWeatherApiRiverpodProvider).length,
+                        ref.watch(horluWeatherApiRiverpodProvider).length,
                     itemBuilder: (context, i) {
+                      ref.watch(imagesWeatherRiverpodProvider);
                       return Card(
                         color: Colors.white,
                         shadowColor: Colors.black,
-                        elevation: 20.0,
-                        shape: RoundedRectangleBorder(
+                        elevation: 5.0,
+                        shape: const RoundedRectangleBorder(
+                          borderRadius: BorderRadius.only(
+                              bottomRight: Radius.circular(20),
+                              topRight: Radius.circular(10)),
+                          side: BorderSide(width: 1, color: Colors.black),
+                        ),
+                        child: Container(
+                          decoration: BoxDecoration(
                             borderRadius: BorderRadius.only(
                                 bottomRight: Radius.circular(20),
                                 topRight: Radius.circular(10)),
-                            side: BorderSide(width: 1, color: Colors.black)),
-                        child: Padding(
-                          padding: const EdgeInsets.all(5.0),
+                            image: DecorationImage(
+                              image: AssetImage(
+                                  '${ref.read(imagesWeatherRiverpodProvider)[i]}'),
+                              fit: BoxFit.cover,
+                            ),
+                          ),
                           child: Column(
                             children: [
-                              Text(
-                                '${ref.watch(HorluWeatherApiRiverpodProvider)[i].time}',
-                                maxLines: 10,
-                                style: TextStyle(fontSize: 20),
+                              Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Text(
+                                  '${ref.watch(horluWeatherApiRiverpodProvider)[i].time}',
+                                  maxLines: 10,
+                                  style: TextStyle(
+                                      color: ref
+                                          .read(textColorRiverpodProvider)[i],
+                                      fontSize: 20),
+                                ),
                               ),
                               Text(
-                                  '${ref.watch(HorluWeatherApiRiverpodProvider)[i].description}',
+                                  '${ref.watch(horluWeatherApiRiverpodProvider)[i].description}',
                                   style: TextStyle(
-                                    color: Colors.black,
-                                    fontSize: 15,
-                                      fontWeight: FontWeight.bold
-                                  )),
+                                      color: ref
+                                          .read(textColorRiverpodProvider)[i],
+                                      fontSize: 15,
+                                      fontWeight: FontWeight.bold)),
                               Image.network(
-                                  "http://openweathermap.org/img/wn/${ref.watch(HorluWeatherApiRiverpodProvider)[i].iconCode}@2x.png"),
+                                  "http://openweathermap.org/img/wn/${ref.watch(horluWeatherApiRiverpodProvider)[i].iconCode}@2x.png"),
                               Text(
-                                '${ref.watch(HorluWeatherApiRiverpodProvider)[i].temperature}°',
-                                style: TextStyle(fontSize: 35),
+                                '${ref.watch(horluWeatherApiRiverpodProvider)[i].temperature}°',
+                                style: TextStyle(
+                                    color:
+                                        ref.read(textColorRiverpodProvider)[i],
+                                    fontSize: 35),
                               ),
                             ],
                           ),
@@ -215,16 +257,19 @@ class Weather extends ConsumerWidget {
             ),
             Padding(
               padding: const EdgeInsets.only(top: 15),
-              child: Row
-                (children: [
-                  SizedBox(width: 100,),
-                Image.asset('images/speed.png'),
-                Text(
-                  '  speed wind - ${ref.watch(weatherApiRiverpodProvider).speedwind} m/sec',
-                  style: TextStyle(
-                      color: Colors.black, fontWeight: FontWeight.bold),
-                ),
-              ],),
+              child: Row(
+                children: [
+                  SizedBox(
+                    width: 100,
+                  ),
+                  Image.asset('images/speed.png'),
+                  Text(
+                    '  speed wind - ${ref.watch(weatherApiRiverpodProvider).speedwind} m/sec',
+                    style: TextStyle(
+                        color: Colors.black, fontWeight: FontWeight.bold),
+                  ),
+                ],
+              ),
             )
           ],
         ),

@@ -13,15 +13,16 @@ final weatherApiRiverpodProvider =
 class WeatherApiProvider extends StateNotifier<WeatherApi> {
   WeatherApiProvider(this.ref)
       : super(WeatherApi(
-          cityName: 'City',
+          cityName: 'Сhoose a city!',
           temperature: 0,
           iconCode: "04d",
           description: '',
           time: '',
-          sunrise: '8:24',
-          sunset: '21:20',
-          pressure: '700',
-          humidity: '67',
+          sunrise: '00:00',
+          sunset: '00:00',
+          pressure: '0',
+          humidity: '0',
+          speedwind: '0',
         ));
 
   String _apiKey = "c782c3ac53aa5dc240fefa3b359fd5b2";
@@ -37,7 +38,6 @@ class WeatherApiProvider extends StateNotifier<WeatherApi> {
     });
     var response = await http.get(url);
     if (response.statusCode == 200) {
-
       state = WeatherApi.fromJson(json.decode(response.body));
       return WeatherApi.fromJson(json.decode(response.body));
     } else {

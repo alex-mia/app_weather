@@ -1,6 +1,8 @@
 // @dart=2.9
+import 'package:app_weather/map/mapScreen.dart';
 import 'package:app_weather/weather/weather.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_map/plugin_api.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 void main()  {
@@ -20,6 +22,7 @@ class MyApp extends StatelessWidget {
         initialRoute: '/',
         routes: {
           '/':(BuildContext context) => Weather(),
+          '/map':(BuildContext context) => MapScreen(),
         }
       // home: Add_new_todo(),
     );

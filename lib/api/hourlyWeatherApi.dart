@@ -8,6 +8,7 @@ class WeatherApiHourly {
   String? time;
   String? sunrise;
   String? sunset;
+  String? images;
 
   WeatherApiHourly({
     this.cityName,

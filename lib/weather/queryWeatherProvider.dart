@@ -8,7 +8,7 @@ final weatherQueryRiverpodProvider =
 });
 
 class WeatherQueryProvider extends StateNotifier<StateQueryWeather> {
-  WeatherQueryProvider() : super(StateQueryWeather('', 0.0, 0.0));
+  WeatherQueryProvider() : super(StateQueryWeather('', 27.61, 53.84));
 
   Future<void> addCity(String city) async {
     state = StateQueryWeather(city, state.lon, state.lat);
@@ -24,5 +24,9 @@ class WeatherQueryProvider extends StateNotifier<StateQueryWeather> {
     }).catchError((e) {
       print(e);
     });
+  }
+
+  void mapGetCurrentLocation(lon, lat) {
+    state = StateQueryWeather(state.city, lon, lat);
   }
 }
