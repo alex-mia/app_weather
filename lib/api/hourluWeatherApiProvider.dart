@@ -1,6 +1,6 @@
 import 'dart:convert';
 import 'package:app_weather/api/hourlyWeatherApi.dart';
-import 'package:app_weather/weather/imagesWeatherProvider.dart';
+import 'package:app_weather/map/mapPointProvider.dart';
 import 'package:app_weather/weather/queryWeatherProvider.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:http/http.dart' as http;
@@ -31,6 +31,28 @@ class HorluWeatherApiProvider extends StateNotifier<List<WeatherApiHourly>> {
       final jsonData = json.decode(response.body);
       final List<WeatherApiHourly> data =
           (jsonData['list'] as List<dynamic>).map((item) {
+        return WeatherApiHourly.fromJson(item);
+      }).toList();
+      state = data;
+      return data;
+    } else {
+      throw ('Failed to load weather');
+    }
+  }
+
+  Future<List<WeatherApiHourly>> getMapHorluWeather() async {
+    var url = Uri.http('api.openweathermap.org', '/data/2.5/forecast', {
+      'q': '${ref.watch(pointMapRiverpodProvider).city}',
+      'lat': '${ref.watch(pointMapRiverpodProvider).lat}',
+      'lon': '${ref.watch(pointMapRiverpodProvider).lon}',
+      'appid': '${_apiKey}',
+      'units': 'metric'
+    });
+    var response = await http.get(url);
+    if (response.statusCode == 200) {
+      final jsonData = json.decode(response.body);
+      final List<WeatherApiHourly> data =
+      (jsonData['list'] as List<dynamic>).map((item) {
         return WeatherApiHourly.fromJson(item);
       }).toList();
       state = data;

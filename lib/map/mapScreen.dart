@@ -6,6 +6,7 @@ import 'package:app_weather/map/mapApiProvider.dart';
 import 'package:app_weather/map/mapPointProvider.dart';
 import 'package:app_weather/weather/imagesWeatherProvider.dart';
 import 'package:app_weather/weather/queryWeatherProvider.dart';
+import 'package:app_weather/weather/text%D0%A1olorProvider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -44,16 +45,20 @@ class MapScreen extends ConsumerWidget {
         .mapGetCurrentLocation(lon, lat);
   }
 
-  Future<void> getHorluWeather(WidgetRef ref) async {
-    ref.read(horluWeatherApiRiverpodProvider.notifier).getHorluWeather();
+  Future<void> getMapHorluWeather(WidgetRef ref) async {
+    ref.read(horluWeatherApiRiverpodProvider.notifier).getMapHorluWeather();
   }
 
-  Future<void> getCurrentWeather(WidgetRef ref) async {
-    ref.read(weatherApiRiverpodProvider.notifier).getCurrentWeather();
+  Future<void> getMapCurrentWeather(WidgetRef ref) async {
+    ref.read(weatherApiRiverpodProvider.notifier).getMapCurrentWeather();
   }
 
   Future<void> imagesSetting(WidgetRef ref) async {
     ref.read(imagesWeatherRiverpodProvider.notifier).imagesSetting();
+  }
+
+  Future<void> textColorSetting(WidgetRef ref) async {
+    ref.read(textColorRiverpodProvider.notifier).textColorSetting();
   }
 
   @override
@@ -85,10 +90,15 @@ class MapScreen extends ConsumerWidget {
                     ref,
                     ref.read(pointMapRiverpodProvider).lon,
                     ref.read(pointMapRiverpodProvider).lat);
-                getCurrentWeather(ref);
-                getHorluWeather(ref);
-                Timer(Duration(seconds: 1), () {
+                Timer(
+                Duration(seconds: 2),
+                 () {
+                  getMapCurrentWeather(ref);
+                  getMapHorluWeather(ref);
+                 });
+                Timer(Duration(seconds: 3), () {
                   imagesSetting(ref);
+                  textColorSetting(ref);
                 });
                 Navigator.pushNamed(context, '/');
               }),

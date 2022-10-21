@@ -13,10 +13,10 @@ final pointMapRiverpodProvider =
 MapController mapController = MapController();
 
 class PointMapProvider extends StateNotifier<StateMap> {
-  PointMapProvider() : super(StateMap(4.0, 27.61, 53.84, mapController));
+  PointMapProvider() : super(StateMap('', 4.0, 27.61, 53.84, mapController));
 
   void getPointLocation(lon, lat) {
-    state = StateMap(state.zoom, lon, lat, state.mapController);
+    state = StateMap(state.city, state.zoom, lon, lat, state.mapController);
   }
 
   Future<void> getCurrentLocation() async {
@@ -24,7 +24,7 @@ class PointMapProvider extends StateNotifier<StateMap> {
             desiredAccuracy: LocationAccuracy.best,
             forceAndroidLocationManager: true)
         .then((Position position) {
-      state = StateMap(state.zoom, position.longitude, position.latitude,
+      state = StateMap(state.city, state.zoom, position.longitude, position.latitude,
           state.mapController);
     }).catchError((e) {
       print(e);
@@ -34,19 +34,19 @@ class PointMapProvider extends StateNotifier<StateMap> {
   void plusZoom() {
     double zoom = state.zoom;
     zoom += 1.0;
-    state = StateMap(zoom, state.lon, state.lat, state.mapController);
+    state = StateMap(state.city, zoom, state.lon, state.lat, state.mapController);
   }
 
   void minusZoom() {
     double zoom = state.zoom;
     zoom -= 1.0;
-    state = StateMap(zoom, state.lon, state.lat, state.mapController);
+    state = StateMap(state.city, zoom, state.lon, state.lat, state.mapController);
   }
 
   void controllerMap() {
     LatLng currentCenter = LatLng(state.lat, state.lon);
     double center = state.zoom;
     mapController.move(currentCenter, center);
-    state = StateMap(state.zoom, state.lon, state.lat, mapController);
+    state = StateMap(state.city, state.zoom, state.lon, state.lat, mapController);
   }
 }

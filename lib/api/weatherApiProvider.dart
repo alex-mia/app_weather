@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:app_weather/map/mapPointProvider.dart';
 import 'package:app_weather/weather/queryWeatherProvider.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:app_weather/api/weatherApi.dart';
@@ -33,6 +34,23 @@ class WeatherApiProvider extends StateNotifier<WeatherApi> {
       'q': '${ref.watch(weatherQueryRiverpodProvider).city}',
       'lat': '${ref.watch(weatherQueryRiverpodProvider).lat}',
       'lon': '${ref.watch(weatherQueryRiverpodProvider).lon}',
+      'appid': '$_apiKey',
+      'units': 'metric'
+    });
+    var response = await http.get(url);
+    if (response.statusCode == 200) {
+      state = WeatherApi.fromJson(json.decode(response.body));
+      return WeatherApi.fromJson(json.decode(response.body));
+    } else {
+      throw ('Failed to load weather');
+    }
+  }
+
+  Future<WeatherApi> getMapCurrentWeather() async {
+    var url = Uri.http('api.openweathermap.org', '/data/2.5/weather', {
+      'q': '${ref.watch(pointMapRiverpodProvider).city}',
+      'lat': '${ref.watch(pointMapRiverpodProvider).lat}',
+      'lon': '${ref.watch(pointMapRiverpodProvider).lon}',
       'appid': '$_apiKey',
       'units': 'metric'
     });

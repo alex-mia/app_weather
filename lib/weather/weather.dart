@@ -175,7 +175,7 @@ class Weather extends ConsumerWidget {
                     itemCount:
                         ref.watch(horluWeatherApiRiverpodProvider).length,
                     itemBuilder: (context, i) {
-                      ref.watch(imagesWeatherRiverpodProvider);
+                      ref.watch(imagesWeatherRiverpodProvider)[i];
                       return Card(
                         color: Colors.white,
                         shadowColor: Colors.black,

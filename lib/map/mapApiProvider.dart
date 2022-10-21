@@ -22,7 +22,7 @@ class MapApiProvider extends StateNotifier<MapWeatherApi> {
 
   Future<MapWeatherApi> getCurrentWeathers() async {
     var url = Uri.http('api.openweathermap.org', '/data/2.5/weather', {
-      'q': '',
+      'q': '${ref.watch(pointMapRiverpodProvider).city}',
       'lat': '${ref.watch(pointMapRiverpodProvider).lat}',
       'lon': '${ref.watch(pointMapRiverpodProvider).lon}',
       'appid': '$_apiKey',
