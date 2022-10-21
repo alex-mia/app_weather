@@ -3,9 +3,10 @@
 Flutter Project / Riverpod / Api
 
 'Weather' app.
+
 operations:
 
-Detecting geo-data;
+detecting geo-data;
 
 obtaining temperature;
 
