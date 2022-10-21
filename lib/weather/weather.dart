@@ -42,9 +42,25 @@ class Weather extends ConsumerWidget {
     ref.read(weatherQueryRiverpodProvider).lon;
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.white70,
+        automaticallyImplyLeading: false,
+        flexibleSpace: Container(
+          decoration: const BoxDecoration(
+            boxShadow: [
+              BoxShadow(
+                  color: Colors.black,
+                  spreadRadius: 2.0,
+                  blurRadius: 10.0,
+                  offset: Offset(3.0, 3.0))
+            ],
+            gradient: LinearGradient(
+              colors: [Colors.purple, Colors.red, Colors.orange],
+            ),
+          ),
+        ),
         actions: <Widget>[
           IconButton(
+              highlightColor: Colors.purpleAccent,
+              splashRadius: 20,
               icon: Icon(
                 Icons.zoom_out_map_sharp,
                 color: Colors.black,
@@ -61,6 +77,8 @@ class Weather extends ConsumerWidget {
                 );
               }),
           IconButton(
+              highlightColor: Colors.purpleAccent,
+              splashRadius: 20,
               icon: Icon(
                 Icons.gps_fixed,
                 color: Colors.black,
@@ -84,6 +102,8 @@ class Weather extends ConsumerWidget {
                 );
               }),
           IconButton(
+            highlightColor: Colors.purpleAccent,
+            splashRadius: 20,
             icon: Icon(Icons.search),
             onPressed: () {
               showSearch(
@@ -116,7 +136,7 @@ class Weather extends ConsumerWidget {
             Padding(
               padding: const EdgeInsets.only(top: 30, bottom: 10),
               child: Text('${ref.watch(weatherApiRiverpodProvider).cityName}',
-                  style: TextStyle(
+                  style: const TextStyle(
                     color: Colors.black,
                     fontSize: 30,
                   )),
@@ -127,46 +147,71 @@ class Weather extends ConsumerWidget {
                   fontSize: 15,
                 )),
             Padding(
-              padding: const EdgeInsets.only(top: 18),
+              padding: const EdgeInsets.only(top: 10),
+              child: Text('${ref.watch(weatherApiRiverpodProvider).temperature}°',
+                  style: TextStyle(
+                    color: Colors.black,
+                    fontSize: 50,
+                  )),
+            ),
+            Padding(
+              padding: const EdgeInsets.only(top: 10, bottom: 5),
               child: Text(
                   '${ref.watch(weatherApiRiverpodProvider).description}',
-                  style: TextStyle(
+                  style: const TextStyle(
                       color: Colors.black,
                       fontSize: 15,
                       fontWeight: FontWeight.bold)),
             ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Padding(
-                  padding: const EdgeInsets.only(right: 50),
-                  child: Column(
-                    children: [
-                      Image.asset('images/sunrise.png'),
-                      Text('${ref.watch(weatherApiRiverpodProvider).sunrise}'),
-                    ],
-                  ),
-                ),
-                Image.network(
-                    "http://openweathermap.org/img/wn/${ref.watch(weatherApiRiverpodProvider).iconCode}@2x.png"),
-                Padding(
-                  padding: const EdgeInsets.only(left: 50),
-                  child: Column(
-                    children: [
-                      Image.asset('images/sunset.png'),
-                      Text('${ref.watch(weatherApiRiverpodProvider).sunset}'),
-                    ],
-                  ),
-                ),
-              ],
-            ),
-            Text('${ref.watch(weatherApiRiverpodProvider).temperature}°',
-                style: TextStyle(
-                  color: Colors.black,
-                  fontSize: 50,
-                )),
             Padding(
-              padding: const EdgeInsets.only(top: 40),
+              padding: const EdgeInsets.all(8.0),
+              child: Container(
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(40),
+                  border: Border.all(
+                    color: Colors.black,
+                    width: 1,
+                  ),
+                  boxShadow: const [
+                    BoxShadow(
+                        color: Colors.black,
+                        spreadRadius: 2.0,
+                        blurRadius: 10.0,
+                        offset: Offset(3.0, 3.0))
+                  ],
+                  gradient: LinearGradient(
+                    colors: [Colors.red, Colors.orange],
+                  ),
+                ),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.only(right: 50),
+                      child: Column(
+                        children: [
+                          Image.asset('images/sunrise.png'),
+                          Text('${ref.watch(weatherApiRiverpodProvider).sunrise}'),
+                        ],
+                      ),
+                    ),
+                    Image.network(
+                        "http://openweathermap.org/img/wn/${ref.watch(weatherApiRiverpodProvider).iconCode}@2x.png"),
+                    Padding(
+                      padding: const EdgeInsets.only(left: 50),
+                      child: Column(
+                        children: [
+                          Image.asset('images/sunset.png'),
+                          Text('${ref.watch(weatherApiRiverpodProvider).sunset}'),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.only(top: 10),
               child: SizedBox(
                 width: 390,
                 height: 235,
@@ -177,18 +222,23 @@ class Weather extends ConsumerWidget {
                     itemBuilder: (context, i) {
                       ref.watch(imagesWeatherRiverpodProvider)[i];
                       return Card(
-                        color: Colors.white,
-                        shadowColor: Colors.black,
-                        elevation: 5.0,
+                        color: Colors.black,
                         shape: const RoundedRectangleBorder(
                           borderRadius: BorderRadius.only(
                               bottomRight: Radius.circular(20),
                               topRight: Radius.circular(10)),
-                          side: BorderSide(width: 1, color: Colors.black),
+                          side: BorderSide(width: 2, color: Colors.orange),
                         ),
                         child: Container(
                           decoration: BoxDecoration(
-                            borderRadius: BorderRadius.only(
+                            boxShadow: const [
+                              BoxShadow(
+                                  color: Colors.black,
+                                  spreadRadius: 2.0,
+                                  blurRadius: 2.0,
+                                  offset: Offset(3.0, 3.0))
+                            ],
+                            borderRadius: const BorderRadius.only(
                                 bottomRight: Radius.circular(20),
                                 topRight: Radius.circular(10)),
                             image: DecorationImage(
@@ -234,41 +284,85 @@ class Weather extends ConsumerWidget {
               ),
             ),
             Padding(
-              padding: const EdgeInsets.only(top: 30, left: 20),
-              child: Row(
-                children: [
-                  Image.asset('images/pressure.png'),
-                  Text(
-                    '  pressure - ${ref.watch(weatherApiRiverpodProvider).pressure}',
-                    style: TextStyle(
-                        color: Colors.black, fontWeight: FontWeight.bold),
+              padding: const EdgeInsets.only(top: 30, left: 20, right: 20),
+              child: Container(
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(40),
+                  border: Border.all(
+                    color: Colors.black,
+                    width: 1,
                   ),
-                  SizedBox(
-                    width: 40,
+                  boxShadow: const [
+                    BoxShadow(
+                        color: Colors.black,
+                        spreadRadius: 2.0,
+                        blurRadius: 10.0,
+                        offset: Offset(3.0, 3.0))
+                  ],
+                  gradient: LinearGradient(
+                    colors: [Colors.orange, Colors.red],
                   ),
-                  Image.asset('images/humidity.png'),
-                  Text(
-                    '  humidity - ${ref.watch(weatherApiRiverpodProvider).humidity}%',
-                    style: TextStyle(
-                        color: Colors.black, fontWeight: FontWeight.bold),
+                ),
+                child: Padding(
+                  padding: const EdgeInsets.only(left: 8),
+                  child: Row(
+                    children: [
+                      Image.asset('images/pressure.png'),
+                      Text(
+                        '  pressure - ${ref.watch(weatherApiRiverpodProvider).pressure}',
+                        style: TextStyle(
+                            color: Colors.black, fontWeight: FontWeight.bold),
+                      ),
+                      SizedBox(
+                        width: 20,
+                      ),
+                      Image.asset('images/humidity.png'),
+                      Text(
+                        '  humidity - ${ref.watch(weatherApiRiverpodProvider).humidity}%',
+                        style: TextStyle(
+                            color: Colors.black, fontWeight: FontWeight.bold),
+                      ),
+                    ],
                   ),
-                ],
+                ),
               ),
             ),
             Padding(
-              padding: const EdgeInsets.only(top: 15),
-              child: Row(
-                children: [
-                  SizedBox(
-                    width: 100,
+              padding: const EdgeInsets.only(top: 15, left: 55, right: 55),
+              child: Container(
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(40),
+                  border: Border.all(
+                    color: Colors.black,
+                    width: 1,
                   ),
-                  Image.asset('images/speed.png'),
-                  Text(
-                    '  speed wind - ${ref.watch(weatherApiRiverpodProvider).speedwind} m/sec',
-                    style: TextStyle(
-                        color: Colors.black, fontWeight: FontWeight.bold),
+                  boxShadow: const [
+                    BoxShadow(
+                        color: Colors.black,
+                        spreadRadius: 2.0,
+                        blurRadius: 10.0,
+                        offset: Offset(3.0, 3.0))
+                  ],
+                  gradient: LinearGradient(
+                    colors: [Colors.orange, Colors.red],
                   ),
-                ],
+                ),
+                child: Row(
+                  children: [
+                    SizedBox(
+                      width: 35,
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(4.0),
+                      child: Image.asset('images/speed.png'),
+                    ),
+                    Text(
+                      '  speed wind - ${ref.watch(weatherApiRiverpodProvider).speedwind} m/sec',
+                      style: TextStyle(
+                          color: Colors.black, fontWeight: FontWeight.bold),
+                    ),
+                  ],
+                ),
               ),
             )
           ],

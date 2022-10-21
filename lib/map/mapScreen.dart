@@ -67,7 +67,16 @@ class MapScreen extends ConsumerWidget {
     ref.read(mapApiRiverpodProvider);
     return Scaffold(
       appBar: AppBar(
+        flexibleSpace: Container(
+          decoration: BoxDecoration(
+            gradient: LinearGradient(
+              colors: [Colors.purple, Colors.red, Colors.orange],
+            ),
+          ),
+        ),
         leading: IconButton(
+          highlightColor: Colors.purpleAccent,
+          splashRadius: 20,
           icon: Icon(
             Icons.arrow_back,
             color: Colors.black,
@@ -81,6 +90,8 @@ class MapScreen extends ConsumerWidget {
         backgroundColor: Colors.white70,
         actions: <Widget>[
           IconButton(
+              highlightColor: Colors.purpleAccent,
+              splashRadius: 20,
               icon: Icon(
                 Icons.find_in_page_sharp,
                 color: Colors.black,
@@ -163,8 +174,8 @@ class MapScreen extends ConsumerWidget {
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
                 IconButton(
-                  icon: const Icon(Icons.add),
-                  color: Colors.black,
+                  icon: const Icon(Icons.add, size: 40),
+                  color: Colors.deepOrange,
                   onPressed: () {
                     plusZoom(ref);
                     controllerMap(ref);
@@ -181,8 +192,8 @@ class MapScreen extends ConsumerWidget {
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
                 IconButton(
-                  icon: const Icon(Icons.minimize),
-                  color: Colors.black,
+                  icon: const Icon(Icons.minimize, size: 40),
+                  color: Colors.deepOrange,
                   onPressed: () {
                     minusZoom(ref);
                     controllerMap(ref);
