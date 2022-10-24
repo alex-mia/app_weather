@@ -1,5 +1,4 @@
 import 'dart:async';
-
 import 'package:app_weather/api/hourluWeatherApiProvider.dart';
 import 'package:app_weather/api/weatherApiProvider.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -10,6 +9,7 @@ final imagesWeatherRiverpodProvider =
   return ImagesWeatherProvider(ref);
 });
 List<String> weatherHorlu = List.generate(40, (i) => 'images/background.jpg');
+List<String> iconWeatherHorlu = List.generate(40, (i) => 'images/background.jpg');
 
 class ImagesWeatherProvider extends StateNotifier<List<String>> {
   ImagesWeatherProvider(this.ref) : super(weatherHorlu);

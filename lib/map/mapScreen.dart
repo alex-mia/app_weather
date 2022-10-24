@@ -4,9 +4,9 @@ import 'package:app_weather/api/hourluWeatherApiProvider.dart';
 import 'package:app_weather/api/weatherApiProvider.dart';
 import 'package:app_weather/map/mapApiProvider.dart';
 import 'package:app_weather/map/mapPointProvider.dart';
-import 'package:app_weather/weather/imagesWeatherProvider.dart';
+import 'package:app_weather/background/imagesWeatherProvider.dart';
 import 'package:app_weather/weather/queryWeatherProvider.dart';
-import 'package:app_weather/weather/text%D0%A1olorProvider.dart';
+import 'package:app_weather/background/text%D0%A1olorProvider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -68,21 +68,28 @@ class MapScreen extends ConsumerWidget {
     return Scaffold(
       appBar: AppBar(
         flexibleSpace: Container(
-          decoration: BoxDecoration(
+          decoration: const BoxDecoration(
+            // boxShadow: [
+            //   BoxShadow(
+            //     color: Colors.black,
+            //     spreadRadius: 2.0,
+            //     blurRadius: 2.0,
+            //   ),
+            // ],
             gradient: LinearGradient(
-              colors: [Colors.purple, Colors.red, Colors.orange],
+              colors: [Colors.red, Colors.orange],
             ),
           ),
         ),
         leading: IconButton(
-          highlightColor: Colors.purpleAccent,
+          highlightColor: Colors.red,
           splashRadius: 20,
           icon: Icon(
             Icons.arrow_back,
             color: Colors.black,
           ),
           onPressed: () {
-            Navigator.pushNamed(context, '/');
+            Navigator.pushNamed(context, '/weather');
           },
         ),
         automaticallyImplyLeading: false,
@@ -90,7 +97,7 @@ class MapScreen extends ConsumerWidget {
         backgroundColor: Colors.white70,
         actions: <Widget>[
           IconButton(
-              highlightColor: Colors.purpleAccent,
+              highlightColor: Colors.red,
               splashRadius: 20,
               icon: Icon(
                 Icons.find_in_page_sharp,
@@ -111,7 +118,7 @@ class MapScreen extends ConsumerWidget {
                   imagesSetting(ref);
                   textColorSetting(ref);
                 });
-                Navigator.pushNamed(context, '/');
+                Navigator.pushNamed(context, '/weather');
               }),
         ],
       ),

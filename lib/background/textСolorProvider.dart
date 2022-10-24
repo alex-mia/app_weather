@@ -4,7 +4,6 @@ import 'dart:async';
 import 'package:app_weather/api/hourluWeatherApiProvider.dart';
 import 'package:app_weather/api/weatherApiProvider.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/physics.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 final textColorRiverpodProvider =
