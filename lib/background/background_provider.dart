@@ -1,6 +1,6 @@
 
-import 'package:app_weather/api/weatherApiProvider.dart';
-import 'package:app_weather/background/backgroundState.dart';
+import 'package:app_weather/api/weather_api_provider.dart';
+import 'package:app_weather/background/background_state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 

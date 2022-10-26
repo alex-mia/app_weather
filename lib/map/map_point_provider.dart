@@ -1,5 +1,5 @@
-import 'package:app_weather/map/stateMap.dart';
-import 'package:app_weather/weather/weatherState.dart';
+import 'package:app_weather/map/state_map.dart';
+import 'package:app_weather/weather/weather_state.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:geolocator/geolocator.dart';

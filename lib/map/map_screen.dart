@@ -1,12 +1,12 @@
 import 'dart:async';
 
-import 'package:app_weather/api/hourluWeatherApiProvider.dart';
-import 'package:app_weather/api/weatherApiProvider.dart';
-import 'package:app_weather/map/mapApiProvider.dart';
-import 'package:app_weather/map/mapPointProvider.dart';
-import 'package:app_weather/background/imagesWeatherProvider.dart';
-import 'package:app_weather/weather/queryWeatherProvider.dart';
-import 'package:app_weather/background/text%D0%A1olorProvider.dart';
+import 'package:app_weather/api/hourlu_weather_api_provider.dart';
+import 'package:app_weather/api/weather_api_provider.dart';
+import 'package:app_weather/background/text_color_provider.dart';
+import 'package:app_weather/map/map_api_provider.dart';
+import 'package:app_weather/map/map_point_provider.dart';
+import 'package:app_weather/background/images_weather_provider.dart';
+import 'package:app_weather/weather/query_weather_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';

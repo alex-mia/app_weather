@@ -1,6 +1,6 @@
 import 'dart:convert';
-import 'package:app_weather/map/mapPointProvider.dart';
-import 'package:app_weather/map/mapWeatherState.dart';
+import 'package:app_weather/map/map_point_provider.dart';
+import 'package:app_weather/map/map_weather_state.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:http/http.dart' as http;
 

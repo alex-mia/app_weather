@@ -1,6 +1,6 @@
 // @dart=2.9
-import 'package:app_weather/map/mapScreen.dart';
-import 'package:app_weather/startScreen.dart';
+import 'package:app_weather/map/map_screen.dart';
+import 'package:app_weather/start_screen.dart';
 import 'package:app_weather/weather/weather.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';

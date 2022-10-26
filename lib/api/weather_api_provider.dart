@@ -1,8 +1,8 @@
 import 'dart:convert';
-import 'package:app_weather/map/mapPointProvider.dart';
-import 'package:app_weather/weather/queryWeatherProvider.dart';
+import 'package:app_weather/map/map_point_provider.dart';
+import 'package:app_weather/weather/query_weather_provider.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:app_weather/api/weatherApi.dart';
+import 'package:app_weather/api/weather_api.dart';
 import 'package:http/http.dart' as http;
 
 final weatherApiRiverpodProvider =

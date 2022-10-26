@@ -1,12 +1,13 @@
 import 'dart:async';
 
-import 'package:app_weather/api/hourluWeatherApiProvider.dart';
-import 'package:app_weather/api/weatherApiProvider.dart';
-import 'package:app_weather/background/backgroundProvider.dart';
-import 'package:app_weather/delegates/searchDelegate.dart';
-import 'package:app_weather/background/imagesWeatherProvider.dart';
-import 'package:app_weather/weather/queryWeatherProvider.dart';
-import 'package:app_weather/background/text%D0%A1olorProvider.dart';
+import 'package:app_weather/api/hourlu_weather_api_provider.dart';
+import 'package:app_weather/api/weather_api_provider.dart';
+import 'package:app_weather/background/background_provider.dart';
+import 'package:app_weather/background/images_weather_provider.dart';
+import 'package:app_weather/background/text_color_provider.dart';
+import 'package:app_weather/delegates/search_delegate.dart';
+import 'package:app_weather/weather/query_weather_provider.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -51,9 +52,9 @@ class Weather extends ConsumerWidget {
           decoration: const BoxDecoration(
             boxShadow: [
               BoxShadow(
-                  color: Colors.black,
-                  spreadRadius: 2.0,
-                  blurRadius: 2.0,
+                color: Colors.black,
+                spreadRadius: 2.0,
+                blurRadius: 2.0,
               ),
             ],
             gradient: LinearGradient(
@@ -73,7 +74,7 @@ class Weather extends ConsumerWidget {
                 Navigator.pushNamed(context, '/map');
                 Timer(
                   Duration(seconds: 3),
-                  () {
+                      () {
                     getCurrentWeather(
                       ref,
                     );
@@ -91,7 +92,7 @@ class Weather extends ConsumerWidget {
                 getCurrentLocation(ref);
                 Timer(
                   Duration(seconds: 3),
-                  () {
+                      () {
                     getHorluWeather(
                       ref,
                     );
@@ -113,7 +114,7 @@ class Weather extends ConsumerWidget {
               showSearch(
                 context: context,
                 delegate: MySearchDelegate(
-                  (query) {
+                      (query) {
                     addCity(ref, query);
                     getHorluWeather(
                       ref,
@@ -179,11 +180,11 @@ class Weather extends ConsumerWidget {
               Padding(
                 padding: const EdgeInsets.only(top: 5, left: 20),
                 child:
-                    Text('${ref.watch(weatherApiRiverpodProvider).temperature}°',
-                        style: TextStyle(
-                          color: ref.watch(backgroundRiverpodProvider).color,
-                          fontSize: 50,
-                        )),
+                Text('${ref.watch(weatherApiRiverpodProvider).temperature}°',
+                    style: TextStyle(
+                      color: ref.watch(backgroundRiverpodProvider).color,
+                      fontSize: 50,
+                    )),
               ),
               Padding(
                 padding: const EdgeInsets.all(3.0),
@@ -240,7 +241,7 @@ class Weather extends ConsumerWidget {
                 child: ListView.builder(
                     scrollDirection: Axis.horizontal,
                     itemCount:
-                        ref.watch(horluWeatherApiRiverpodProvider).length,
+                    ref.watch(horluWeatherApiRiverpodProvider).length,
                     itemBuilder: (context, i) {
                       ref.watch(imagesWeatherRiverpodProvider)[i];
                       return Card(
@@ -295,7 +296,7 @@ class Weather extends ConsumerWidget {
                                 '${ref.watch(horluWeatherApiRiverpodProvider)[i].temperature}°',
                                 style: TextStyle(
                                     color:
-                                        ref.read(textColorRiverpodProvider)[i],
+                                    ref.read(textColorRiverpodProvider)[i],
                                     fontSize: 35),
                               ),
                             ],
