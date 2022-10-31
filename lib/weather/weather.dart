@@ -6,7 +6,6 @@ import 'package:app_weather/background/images_weather_provider.dart';
 import 'package:app_weather/background/text_color_provider.dart';
 import 'package:app_weather/delegates/search_delegate.dart';
 import 'package:app_weather/weather/query_weather_provider.dart';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -234,16 +233,24 @@ class Weather extends ConsumerWidget {
                   ),
                 ),
               ),
+
               SizedBox(
                 width: 390,
                 height: 235,
-                child: ListView.builder(
+                child: ref.watch(horluWeatherApiRiverpodProvider).length == 0 ? Padding(
+                  padding: EdgeInsets.only(left: 100, right: 100, top: 25, bottom: 25),
+                  child: CircularProgressIndicator(backgroundColor: Colors.orangeAccent,
+                    valueColor: AlwaysStoppedAnimation(Colors.deepOrange),
+                    strokeWidth: 10.0,
+                  ),
+                )
+               : ListView.builder(
                     scrollDirection: Axis.horizontal,
                     itemCount:
                     ref.watch(horluWeatherApiRiverpodProvider).length,
                     itemBuilder: (context, i) {
                       ref.watch(imagesWeatherRiverpodProvider)[i];
-                      return Card(
+                      return Card (
                         color: Colors.black,
                         shape: const RoundedRectangleBorder(
                           borderRadius: BorderRadius.only(

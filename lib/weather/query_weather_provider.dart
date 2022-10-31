@@ -22,7 +22,7 @@ class WeatherQueryProvider extends StateNotifier<StateQueryWeather> {
       state =
           StateQueryWeather(state.city, position.longitude, position.latitude);
     }).catchError((e) {
-      print(e);
+      return(e);
     });
   }
 

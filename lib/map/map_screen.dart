@@ -1,5 +1,5 @@
 import 'dart:async';
-
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:app_weather/api/hourly_weather_api_provider.dart';
 import 'package:app_weather/api/weather_api_provider.dart';
 import 'package:app_weather/background/text_color_provider.dart';
@@ -8,9 +8,7 @@ import 'package:app_weather/map/map_point_provider.dart';
 import 'package:app_weather/background/images_weather_provider.dart';
 import 'package:app_weather/weather/query_weather_provider.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_map/flutter_map.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:latlong2/latlong.dart';
 
 class MapScreen extends ConsumerWidget {
   MapScreen({Key? key}) : super(key: key);
@@ -61,6 +59,12 @@ class MapScreen extends ConsumerWidget {
     ref.read(textColorRiverpodProvider.notifier).textColorSetting();
   }
 
+// set an initial location of the Map
+  CameraPosition _initialCameraPosition =
+      CameraPosition(target: LatLng(20.5937, 78.9629));
+
+  late GoogleMapController googleMapController;
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     ref.watch(pointMapRiverpodProvider);
@@ -69,13 +73,6 @@ class MapScreen extends ConsumerWidget {
       appBar: AppBar(
         flexibleSpace: Container(
           decoration: const BoxDecoration(
-            // boxShadow: [
-            //   BoxShadow(
-            //     color: Colors.black,
-            //     spreadRadius: 2.0,
-            //     blurRadius: 2.0,
-            //   ),
-            // ],
             gradient: LinearGradient(
               colors: [Colors.red, Colors.orange],
             ),
@@ -108,12 +105,10 @@ class MapScreen extends ConsumerWidget {
                     ref,
                     ref.read(pointMapRiverpodProvider).lon,
                     ref.read(pointMapRiverpodProvider).lat);
-                Timer(
-                Duration(seconds: 2),
-                 () {
+                Timer(Duration(seconds: 2), () {
                   getMapCurrentWeather(ref);
                   getMapHorluWeather(ref);
-                 });
+                });
                 Timer(Duration(seconds: 3), () {
                   imagesSetting(ref);
                   textColorSetting(ref);
@@ -122,95 +117,32 @@ class MapScreen extends ConsumerWidget {
               }),
         ],
       ),
-      body: Stack(
-        children: [
-          FlutterMap(
-            mapController: ref.watch(pointMapRiverpodProvider).mapController,
-            options: MapOptions(
-              onTap: (tapPosition, point) {
+      body:
+          GoogleMap(
+              initialCameraPosition: _initialCameraPosition,
+              myLocationEnabled: true,
+              myLocationButtonEnabled: true,
+              mapType: MapType.terrain,
+              zoomGesturesEnabled: true,
+              zoomControlsEnabled: true,
+              onMapCreated: (GoogleMapController c) {
+                // to control the camera position of the map
+                googleMapController = c;
+              },
+              onTap: (point) {
                 getPointLocation(ref, point.longitude, point.latitude);
                 getCurrentWeathers(ref);
               },
-              center: LatLng(ref.read(pointMapRiverpodProvider).lat,
-                  ref.read(pointMapRiverpodProvider).lon),
-              zoom: ref.read(pointMapRiverpodProvider).zoom,
-              minZoom: 3.0,
-              maxZoom: 12.0,
-            ),
-            layers: [
-              TileLayerOptions(
-                urlTemplate:
-                    "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
-                subdomains: ['a', 'b', 'c'],
-              ),
-              MarkerLayerOptions(
-                markers: [
-                  Marker(
-                    width: 100.0,
-                    height: 100.0,
-                    point: LatLng(ref.read(pointMapRiverpodProvider).lat,
-                        ref.read(pointMapRiverpodProvider).lon),
-                    builder: (ctx) => Column(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      mainAxisSize: MainAxisSize.max,
-                      children: [
-                        Text(
-                          '${ref.watch(mapApiRiverpodProvider).temperature}',
-                          style: TextStyle(
-                              fontSize: 25,
-                              color: Colors.deepOrange,
-                              fontWeight: FontWeight.w800),
-                        ),
-                        SizedBox(height: 2),
-                        Container(
-                          child: Image.asset('images/location.png'),
-                        ),
-                      ],
-                    ),
-                  ),
-                ],
-              ),
-            ],
-          ),
-          Padding(
-            padding: const EdgeInsets.only(top: 230, right: 10),
-            child: Row(
-              mainAxisSize: MainAxisSize.max,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-                IconButton(
-                  icon: const Icon(Icons.add, size: 40),
-                  color: Colors.deepOrange,
-                  onPressed: () {
-                    plusZoom(ref);
-                    controllerMap(ref);
-                  },
+              markers: {
+                Marker(
+                  markerId: MarkerId('1 point'),
+                  position: LatLng(ref.watch(pointMapRiverpodProvider).lat,
+                      ref.watch(pointMapRiverpodProvider).lon),
+                  infoWindow: InfoWindow(
+                      title:
+                          '${ref.watch(mapApiRiverpodProvider).cityName}  ${ref.watch(mapApiRiverpodProvider).temperature}°'),
                 ),
-              ],
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.only(top: 290, right: 10),
-            child: Row(
-              mainAxisSize: MainAxisSize.max,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-                IconButton(
-                  icon: const Icon(Icons.minimize, size: 40),
-                  color: Colors.deepOrange,
-                  onPressed: () {
-                    minusZoom(ref);
-                    controllerMap(ref);
-                  },
-                ),
-              ],
-            ),
-          ),
-        ],
-      ),
+              }),
     );
   }
 }

@@ -8,6 +8,7 @@ final imagesWeatherRiverpodProvider =
   ref.read(weatherApiRiverpodProvider);
   return ImagesWeatherProvider(ref);
 });
+
 List<String> weatherHorlu = List.generate(40, (i) => 'images/background.jpg');
 List<String> iconWeatherHorlu = List.generate(40, (i) => 'images/background.jpg');
 

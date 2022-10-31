@@ -14,7 +14,7 @@ final weatherApiRiverpodProvider =
 class WeatherApiProvider extends StateNotifier<WeatherApi> {
   WeatherApiProvider(this.ref)
       : super(WeatherApi(
-          cityName: 'Сhoose a city!',
+          cityName: 'Choose a city!',
           temperature: 0,
           iconCode: "04d",
           description: '',
