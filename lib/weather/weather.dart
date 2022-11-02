@@ -4,7 +4,6 @@ import 'package:app_weather/api/weather_api_provider.dart';
 import 'package:app_weather/background/background_provider.dart';
 import 'package:app_weather/background/images_weather_provider.dart';
 import 'package:app_weather/background/text_color_provider.dart';
-import 'package:app_weather/delegates/search_delegate.dart';
 import 'package:app_weather/weather/query_weather_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -109,28 +108,13 @@ class Weather extends ConsumerWidget {
             splashRadius: 20,
             icon: Icon(Icons.search),
             onPressed: () {
-              showSearch(
-                context: context,
-                delegate: MySearchDelegate(
-                      (query) {
-                    addCity(ref, query);
-                    getHorluWeather(
-                      ref,
-                    );
-                    getCurrentWeather(
-                      ref,
-                    );
-                    Timer(Duration(seconds: 1), () {
-                      imagesSetting(ref);
-                      textColorSetting(ref);
-                    });
-                  },
+              Navigator.pushNamed(context, '/search');
+
+                    }),
+      ],
                 ),
-              );
-            },
-          ),
-        ],
-      ),
+
+
       body: SingleChildScrollView(
         child: Container(
           decoration: BoxDecoration(
