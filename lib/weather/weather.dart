@@ -221,11 +221,19 @@ class Weather extends ConsumerWidget {
               SizedBox(
                 width: 390,
                 height: 235,
-                child: ref.watch(horluWeatherApiRiverpodProvider).length == 0 ? Padding(
-                  padding: EdgeInsets.only(left: 100, right: 100, top: 25, bottom: 25),
-                  child: CircularProgressIndicator(backgroundColor: Colors.orangeAccent,
-                    valueColor: AlwaysStoppedAnimation(Colors.deepOrange),
-                    strokeWidth: 10.0,
+                child: ref.watch(horluWeatherApiRiverpodProvider).length == 0 ? Center(
+                  child: Stack(
+                    children: [
+                      Image.asset('images/search.gif', width: 200, height: 200,),
+                      Container(
+                        height: 200,
+                        width: 200,
+                        child: CircularProgressIndicator(backgroundColor: Colors.orangeAccent,
+                        valueColor: AlwaysStoppedAnimation(Colors.deepOrange),
+                        strokeWidth: 10.0,
+                    ),
+                      ),
+  ],
                   ),
                 )
                : ListView.builder(

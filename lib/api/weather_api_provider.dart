@@ -59,7 +59,7 @@ class WeatherApiProvider extends StateNotifier<WeatherApi> {
       state = WeatherApi.fromJson(json.decode(response.body));
       return WeatherApi.fromJson(json.decode(response.body));
     } else {
-      throw ('Failed to load weather');
+          throw ('Failed to load weather');
     }
   }
 }

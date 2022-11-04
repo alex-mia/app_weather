@@ -11,7 +11,6 @@ class WeatherQueryProvider extends StateNotifier<StateQueryWeather> {
   WeatherQueryProvider() : super(StateQueryWeather('', 27.61, 53.84));
 
   Future<void> addCity(String city) async {
-    print('$city');
     state = StateQueryWeather(city, state.lon, state.lat);
   }
 
