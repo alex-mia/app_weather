@@ -1,5 +1,4 @@
 import 'dart:async';
-
 import 'package:app_weather/api/hourly_weather_api_provider.dart';
 import 'package:app_weather/api/weather_api_provider.dart';
 import 'package:app_weather/background/images_weather_provider.dart';

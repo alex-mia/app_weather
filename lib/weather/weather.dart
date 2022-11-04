@@ -104,17 +104,14 @@ class Weather extends ConsumerWidget {
                 );
               }),
           IconButton(
-            highlightColor: Colors.red,
-            splashRadius: 20,
-            icon: Icon(Icons.search),
-            onPressed: () {
-              Navigator.pushNamed(context, '/search');
-
-                    }),
-      ],
-                ),
-
-
+              highlightColor: Colors.red,
+              splashRadius: 20,
+              icon: Icon(Icons.search),
+              onPressed: () {
+                Navigator.pushNamed(context, '/search');
+              }),
+        ],
+      ),
       body: SingleChildScrollView(
         child: Container(
           decoration: BoxDecoration(
@@ -229,14 +226,14 @@ class Weather extends ConsumerWidget {
                         height: 200,
                         width: 200,
                         child: CircularProgressIndicator(backgroundColor: Colors.orangeAccent,
-                        valueColor: AlwaysStoppedAnimation(Colors.deepOrange),
-                        strokeWidth: 10.0,
-                    ),
+                          valueColor: AlwaysStoppedAnimation(Colors.deepOrange),
+                          strokeWidth: 10.0,
+                        ),
                       ),
-  ],
+                    ],
                   ),
                 )
-               : ListView.builder(
+                    : ListView.builder(
                     scrollDirection: Axis.horizontal,
                     itemCount:
                     ref.watch(horluWeatherApiRiverpodProvider).length,
